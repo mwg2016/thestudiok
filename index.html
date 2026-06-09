@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0a0a0a" />
   <title>Kelowna Studio | Studio Hire for Creators, Brands & Events — Kelowna</title>
   <meta name="description" content="Kelowna Studio — a full-service content space in Downtown Kelowna for photography, videography and content creation. Backdrops, props and lighting included." />
   <meta property="og:title" content="Kelowna Studio | Studio Hire — Kelowna" />
   <meta property="og:description" content="A full-service photo & video content space in Downtown Kelowna." />
   <meta property="og:type" content="website" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a0a0a'/%3E%3Ctext x='32' y='46' font-family='Poppins,Arial,sans-serif' font-size='42' font-weight='800' fill='%23ffffff' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -359,7 +357,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   <header class="site-header">
     <div class="container header-inner">
       <a href="#home" class="logo" aria-label="Kelowna Studio home">
-        <img src="assest/Studio K.png" alt="Kelowna Studio" class="logo-k" />
+        <img src="assest/StudioK.png" alt="Kelowna Studio" class="logo-k" />
       </a>
       <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -371,7 +369,7 @@ ul { margin: 0; padding: 0; list-style: none; }
           <li><a href="#creators" data-nav="creators">Creators</a></li>
           <li><a href="#contact" data-nav="contact">Contact Us</a></li>
         </ul>
-        <a href="#booking-rates" class="btn btn-book">Book</a>
+        <a href="#hire-rates" class="btn btn-book">Book</a>
       </nav>
     </div>
   </header>
@@ -380,7 +378,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   <div class="page" id="page-home">
 
     <section class="hero" id="home">
-      <video class="hero-media" autoplay muted loop playsinline poster="assest/banner_2.png">
+      <video class="hero-media" autoplay muted loop playsinline poster="assest/banner_2.pngHire">
         <source src="assets/video/studio.mp4" type="video/mp4" />
       </video>
       
@@ -609,7 +607,7 @@ ul { margin: 0; padding: 0; list-style: none; }
             <h3>Address</h3>
             <p>1447 Ellis St #204<br />Kelowna, BC V1Y 2A3</p>
             <p>Email: <a href="mailto:drew@thestudiok.ca">drew@thestudiok.ca</a></p>
-            <a class="btn btn-dark book-cta" href="#booking-rates">Book</a>
+            <a class="btn btn-dark book-cta" href="#hire-rates">Book</a>
           </div>
         </div>
       </div>
@@ -622,12 +620,12 @@ ul { margin: 0; padding: 0; list-style: none; }
       <div class="footer-brand">
         <span class="footer-logo">
           <a href="#home" class="logo" aria-label="Kelowna Studio home">
-        <img src="assest/STUDIO K.png" alt="Kelowna Studio" class="logo-k" />
+        <img src="assest/STUDIOK.png" alt="Kelowna Studio" class="logo-k" />
       </a>
         </span>
         <p>Email: <a href="mailto:drew@thestudiok.ca">drew@thestudiok.ca</a></p>
         <div class="footer-social">
-          <a href="https://www.instagram.com/studiokelowna/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+          <a href="https://www.instagram.com/studiokelowna/" aria-label="Instagram">Instagram</a>
           <!-- <a href="#" aria-label="TikTok">TikTok</a> -->
         </div>
       </div>
@@ -676,22 +674,19 @@ ul { margin: 0; padding: 0; list-style: none; }
   /* ---- Page router (hash based) ---- */
   var PAGES = { home: "page-home", creators: "page-creators", contact: "page-contact" };
 
-  function setActive(hash) {
-    navLinks.forEach(function (a) {
-      a.classList.toggle("active", a.getAttribute("href") === "#" + hash);
-    });
-  }
-
   function showPage(name, scrollTarget) {
     Object.keys(PAGES).forEach(function (key) {
       var el = document.getElementById(PAGES[key]);
       if (el) el.hidden = key !== name;
     });
+    navLinks.forEach(function (a) {
+      a.classList.toggle("active", a.getAttribute("href") === "#" + name);
+    });
     if (scrollTarget) {
       var t = document.getElementById(scrollTarget);
-      if (t) { t.scrollIntoView({ behavior: "smooth" }); return; }
+      if (t) { t.scrollIntoView(); return; }
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
   }
 
   function route() {
@@ -700,7 +695,6 @@ ul { margin: 0; padding: 0; list-style: none; }
     else if (hash === "contact") showPage("contact");
     else if (!hash || hash === "home") showPage("home");
     else showPage("home", hash); // in-page anchor on the home view
-    setActive(hash || "home"); // highlight the link that matches the current hash
     closeMenu();
   }
   window.addEventListener("hashchange", route);
