@@ -8,6 +8,7 @@
   <meta property="og:title" content="Kelowna Studio | Studio Hire — Kelowna" />
   <meta property="og:description" content="A full-service photo & video content space in Downtown Kelowna." />
   <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a0a0a'/%3E%3Ctext x='32' y='46' font-family='Poppins,Arial,sans-serif' font-size='42' font-weight='800' fill='%23ffffff' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -369,7 +370,7 @@ ul { margin: 0; padding: 0; list-style: none; }
           <li><a href="#creators" data-nav="creators">Creators</a></li>
           <li><a href="#contact" data-nav="contact">Contact Us</a></li>
         </ul>
-        <a href="#hire-rates" class="btn btn-book">Book</a>
+        <a href="#booking-rates" class="btn btn-book">Book</a>
       </nav>
     </div>
   </header>
@@ -378,7 +379,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   <div class="page" id="page-home">
 
     <section class="hero" id="home">
-      <video class="hero-media" autoplay muted loop playsinline poster="assest/banner_2.pngHire">
+      <video class="hero-media" autoplay muted loop playsinline poster="assest/banner_2.png">
         <source src="assets/video/studio.mp4" type="video/mp4" />
       </video>
       
@@ -388,7 +389,7 @@ ul { margin: 0; padding: 0; list-style: none; }
         <h1 class="hero-title">WELCOME TO THE KELOWNA STUDIO</h1>
         <div class="hero-actions">
           <a href="#the-studio" class="btn btn-outline">Take a tour</a>
-          <a href="#hire-rates" class="btn btn-outline">Book now</a>
+          <a href="#booking-rates" class="btn btn-outline">Book now</a>
         </div>
       </div>
     </section>
@@ -607,7 +608,7 @@ ul { margin: 0; padding: 0; list-style: none; }
             <h3>Address</h3>
             <p>1447 Ellis St #204<br />Kelowna, BC V1Y 2A3</p>
             <p>Email: <a href="mailto:drew@thestudiok.ca">drew@thestudiok.ca</a></p>
-            <a class="btn btn-dark book-cta" href="#hire-rates">Book</a>
+            <a class="btn btn-dark book-cta" href="#booking-rates">Book</a>
           </div>
         </div>
       </div>
@@ -625,7 +626,7 @@ ul { margin: 0; padding: 0; list-style: none; }
         </span>
         <p>Email: <a href="mailto:drew@thestudiok.ca">drew@thestudiok.ca</a></p>
         <div class="footer-social">
-          <a href="https://www.instagram.com/studiokelowna/" aria-label="Instagram">Instagram</a>
+          <a href="https://www.instagram.com/studiokelowna/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
           <!-- <a href="#" aria-label="TikTok">TikTok</a> -->
         </div>
       </div>
@@ -674,19 +675,23 @@ ul { margin: 0; padding: 0; list-style: none; }
   /* ---- Page router (hash based) ---- */
   var PAGES = { home: "page-home", creators: "page-creators", contact: "page-contact" };
 
+  function setActive(hash) {
+    var target = "#" + (hash || "home");
+    navLinks.forEach(function (a) {
+      a.classList.toggle("active", a.getAttribute("href") === target);
+    });
+  }
+
   function showPage(name, scrollTarget) {
     Object.keys(PAGES).forEach(function (key) {
       var el = document.getElementById(PAGES[key]);
       if (el) el.hidden = key !== name;
     });
-    navLinks.forEach(function (a) {
-      a.classList.toggle("active", a.getAttribute("href") === "#" + name);
-    });
     if (scrollTarget) {
       var t = document.getElementById(scrollTarget);
-      if (t) { t.scrollIntoView(); return; }
+      if (t) { t.scrollIntoView({ behavior: "smooth" }); return; }
     }
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function route() {
@@ -695,6 +700,7 @@ ul { margin: 0; padding: 0; list-style: none; }
     else if (hash === "contact") showPage("contact");
     else if (!hash || hash === "home") showPage("home");
     else showPage("home", hash); // in-page anchor on the home view
+    setActive(hash || "home"); // highlight the link matching the current hash
     closeMenu();
   }
   window.addEventListener("hashchange", route);
