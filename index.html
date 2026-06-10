@@ -150,7 +150,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .gallery-card:hover::after { opacity: 1; }
 
 /* ---------- Feature icons ---------- */
-.features { background: var(--white); padding: 0 0 120px; }
+.features { background: var(--white); padding: 0 0 100px; }
 .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; border-top: 1px solid var(--grey-line); padding-top: 80px; }
 .feature { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; }
 .feature-icon { color: var(--black); transition: transform 0.5s var(--ease-bounce); }
@@ -247,7 +247,23 @@ ul { margin: 0; padding: 0; list-style: none; }
     opacity: 0; visibility: hidden; transition: all 0.4s var(--ease); z-index: 100;
   }
   .main-nav.open { opacity: 1; visibility: visible; }
-  .main-nav ul { flex-direction: column; align-items: center; gap: 30px; }
+  /* Lock background scroll while the menu is open. */
+  body.nav-open { overflow: hidden; touch-action: none; }
+  /* When the menu is open, drop the header's backdrop-filter so it stops
+     acting as a containing block for the fixed nav (which would otherwise
+     trap the overlay inside the header height). transition: none makes this
+     instant — otherwise the header's "all 0.5s" animates backdrop-filter out
+     and the nav stays trapped in the header box for ~0.5s (the flicker). */
+  .site-header:has(.main-nav.open) {
+    transition: none;
+    background: transparent;
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    border-bottom-color: transparent;
+  }
+  /* The open menu itself should appear with final styling immediately — only
+     fade opacity, never transition layout/position properties. */
+  .main-nav { transition: opacity 0.4s var(--ease), visibility 0.4s var(--ease); }
+  .main-nav ul { flex-direction: column; align-items: center; gap: 36px; }
   .main-nav ul li a { font-size: 20px; font-weight: 600; }
   
   .nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -262,7 +278,10 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 @media (max-width: 600px) {
   .gallery-grid { grid-template-columns: 1fr; }
-  .features-grid { grid-template-columns: 1fr; gap: 40px; }
+  /* Single column: give every feature equal top/bottom space so the
+     whitespace around each icon is consistent across all items. */
+  .features-grid { grid-template-columns: 1fr; gap: 0; padding-top: 40px; }
+  .feature { padding: 40px 0; }
   .footer-grid { grid-template-columns: 1fr; }
   .strip-item { font-size: 11px; }
   .floor-plan { padding: 20px; }
@@ -663,11 +682,13 @@ ul { margin: 0; padding: 0; list-style: none; }
       var open = nav.classList.toggle("open");
       toggle.classList.toggle("active", open);
       toggle.setAttribute("aria-expanded", String(open));
+      document.body.classList.toggle("nav-open", open);
     });
   }
   function closeMenu() {
     if (!nav) return;
     nav.classList.remove("open");
+    document.body.classList.remove("nav-open");
     if (toggle) { toggle.classList.remove("active"); toggle.setAttribute("aria-expanded", "false"); }
   }
 
