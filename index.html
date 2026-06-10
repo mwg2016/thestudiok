@@ -155,7 +155,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .feature { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; }
 .feature-icon { color: var(--black); transition: transform 0.5s var(--ease-bounce); }
 .feature:hover .feature-icon { transform: translateY(-8px); }
-.feature-icon svg { width: 44px; height: 44px; stroke-width: 1.5; }
+.feature-icon svg { width: 64px; height: 64px; stroke-width: 1.5; }
 .feature-label { font-weight: 600; font-size: 15px; margin: 0; text-transform: uppercase; letter-spacing: 1px; color: var(--ink); }
 
 /* ---------- The Studio ---------- */
@@ -379,9 +379,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   <div class="page" id="page-home">
 
     <section class="hero" id="home">
-      <video class="hero-media" autoplay muted loop playsinline poster="assest/banner_2.png">
-        <source src="assets/video/studio.mp4" type="video/mp4" />
-      </video>
+      <img class="hero-media" src="assest/banner_2.png" alt="Kelowna Studio" />
       
       <div class="hero-overlay"></div>
       <div class="hero-content">
@@ -446,8 +444,9 @@ ul { margin: 0; padding: 0; list-style: none; }
     <section class="gallery space-gallery">
       <div class="container">
         <div class="gallery-grid">
-          <figure class="gallery-card"><img src="assest/frame_ready_2.jpg" alt="Kelowna Studio interior" loading="lazy" /></figure>
+          
           <figure class="gallery-card"><img src="assest/2.png" alt="Kelowna Studio interior" loading="lazy" /></figure>
+          <figure class="gallery-card"><img src="assest/frame_ready_3.jpg" alt="Kelowna Studio interior" loading="lazy" /></figure>
           <figure class="gallery-card"><img src="assest/1.png" alt="Kelowna Studio interior" loading="lazy" /></figure>
         </div>
       </div>
@@ -460,7 +459,7 @@ ul { margin: 0; padding: 0; list-style: none; }
           <p>Our studio, located right in the heart of Downtown Kelowna in a new building,
              offers 800sqft of flexible space and is open 7 days a week. It's designed to cater
              to a wide range of creative needs, providing ample room for your next photoshoot.</p>
-          <p class="muted">Open by booking, seven days a week.</p>
+          
         </div>
         <div class="studio-detail">
           <div class="floor-plan">
@@ -706,10 +705,15 @@ ul { margin: 0; padding: 0; list-style: none; }
   window.addEventListener("hashchange", route);
   route();
 
-  /* ---- Studio accordion ---- */
+  /* ---- Studio accordion (single open at a time) ---- */
   Array.prototype.forEach.call(document.querySelectorAll(".acc-head"), function (btn) {
     btn.addEventListener("click", function () {
-      btn.parentElement.classList.toggle("open");
+      var item = btn.parentElement;
+      var willOpen = !item.classList.contains("open");
+      Array.prototype.forEach.call(document.querySelectorAll(".acc-item"), function (other) {
+        other.classList.remove("open");
+      });
+      if (willOpen) item.classList.add("open");
     });
   });
 
